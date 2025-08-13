@@ -55,7 +55,9 @@ export function ContactFormModal({
             <h3
               id="CreateNewContactTitle"
               className="text-xl font-semibold text-gray-900 dark:text-white"
-            > {contact ? "Update the contact" : "Create New Contact"}
+            >
+              {" "}
+              {contact ? "Update the contact" : "Create New Contact"}
             </h3>
             <button
               onClick={onClose}
