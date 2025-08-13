@@ -52,8 +52,7 @@ export function ContactManager() {
   const handleCreateContact = useCallback(
     async (data: ContactFormData) => {
       try {
-        const resData = await createContact(data).unwrap();
-     
+         await createContact(data).unwrap();
         toast.success("Contact created successfully!");
         closeModal();
       } catch (error) {
