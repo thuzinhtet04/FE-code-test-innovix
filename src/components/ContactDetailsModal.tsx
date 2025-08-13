@@ -16,10 +16,11 @@ export function ContactDetailsModal({
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (isOpen && closeBtnRef.current) {
-      closeBtnRef.current.focus();
+    if (isOpen) {
+      closeBtnRef.current?.focus();
     }
   }, [isOpen]);
+
   if (!contact) return null;
 
   return (
@@ -53,7 +54,7 @@ export function ContactDetailsModal({
               onClick={onClose}
               aria-label="Close modal"
               type="button"
-              className="text-red-300 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="text-red-300 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white  focus:border focus:border-green-600"
             >
               <svg
                 className="w-3 h-3"
