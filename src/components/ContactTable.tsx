@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-
+import { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -18,15 +17,14 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
-
 import type { Contact } from "../types/contacts";
 import Loading from "./Loading";
 
 interface ContactTableProps {
   contacts: Contact[];
-  isLoading?: boolean;
-  isError?: boolean;
-  error?: unknown;
+  isLoading: boolean;
+  isError: boolean;
+  error: unknown;
   onView: (contact: Contact) => void;
   onEdit: (contact: Contact) => void;
   onDelete: (contact: Contact) => void;
@@ -43,13 +41,9 @@ export function ContactTable({
   onEdit,
   onDelete,
 }: ContactTableProps) {
-
-  
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [globalFilter, setGlobalFilter] = React.useState("");
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const columns = useMemo(
     () => [
@@ -341,7 +335,7 @@ export function ContactTable({
   }
 
   if (isError) {
-    console.log(error);
+    console.error(error);
     return (
       <div>
         <div className="p-6">
@@ -352,7 +346,6 @@ export function ContactTable({
             <p>
               There is Error when loading the contacts, Please try againg later!
             </p>
-           
           </div>
         </div>
       </div>
@@ -401,7 +394,10 @@ export function ContactTable({
       </div>
       <div>
         <div className="rounded-md border overflow-x-auto">
-          <table  aria-label="Contact lists " className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <table
+            aria-label="Contact lists "
+            className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+          >
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>

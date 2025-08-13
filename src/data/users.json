@@ -160,15 +160,15 @@
       "id": "f86e"
     },
     {
-      "id": "4b54",
-      "firstName": "hello",
-      "lastName": "last",
-      "email": "kokohtet142004@gmail.com",
-      "role": "Admin",
-      "gender": "Other",
-      "isActive": true,
-      "newsletter": false,
-      "birthDate": "2025-08-10T11:19:27.825Z"
+      "firstName": "Thu Zin ",
+      "lastName": "lastgggg",
+      "email": "student0@gmail.com",
+      "role": "User",
+      "gender": "Male",
+      "isActive": false,
+      "newsletter": true,
+      "birthDate": "2025-08-13T14:03:52.875Z",
+      "id": "d13a"
     }
   ]
 }

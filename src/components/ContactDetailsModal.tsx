@@ -4,22 +4,18 @@ import { useEffect, useRef } from "react";
 
 interface ContactDetailsModalProps {
   contact: Contact | null;
-  isOpen: boolean;
   onClose: () => void;
 }
 
 export function ContactDetailsModal({
   contact,
-  isOpen,
   onClose,
 }: ContactDetailsModalProps) {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      closeBtnRef.current?.focus();
-    }
-  }, [isOpen]);
+    closeBtnRef.current?.focus();
+  }, []);
 
   if (!contact) return null;
 
@@ -27,10 +23,7 @@ export function ContactDetailsModal({
     <div
       onClick={onClose}
       id="default-modal"
-      aria-hidden={isOpen ? "false" : "true"}
-      className={`${
-        isOpen ? "flex" : "hidden"
-      } overflow-y-auto overflow-x-hidden bg-black/50  fixed top-0 right-0 left-0 bottom-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      className={`flex overflow-y-auto overflow-x-hidden bg-black/50  fixed top-0 right-0 left-0 bottom-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
     >
       <div
         onClick={(e) => {

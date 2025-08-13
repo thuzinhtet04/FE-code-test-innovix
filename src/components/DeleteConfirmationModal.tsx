@@ -2,15 +2,13 @@ import { useEffect, useRef } from "react";
 import type { Contact } from "../types/contacts";
 
 interface DeleteConfirmationModalProps {
-  isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   contact: Contact | null;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 export function DeleteConfirmationModal({
-  isOpen,
   onClose,
   onConfirm,
   isLoading,
@@ -20,17 +18,14 @@ export function DeleteConfirmationModal({
 
   useEffect(() => {
     closeBtnRef.current?.focus();
-  }, [isOpen]);
+  }, []);
 
   if (!contact) return null;
 
   return (
     <div
       role="dialog"
-      aria-hidden={isOpen ? "false" : "true"}
-      className={`${
-        isOpen ? "flex" : "hidden"
-      } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      className={`flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
     >
       <div
         aria-label="Delete Confirmation Modal"

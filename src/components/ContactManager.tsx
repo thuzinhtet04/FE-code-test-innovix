@@ -1,7 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Plus } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import { useToast } from "@/hooks/use-toast";
 import { ContactTable } from "./ContactTable";
 import { DeleteConfirmationModal } from "./DeleteConfirmationModal";
 
@@ -17,71 +15,75 @@ import type {
   ContactFormData,
   ContactFormDataWithId,
 } from "../types/contacts";
-import { ContactFormModal } from "./ContactFormModal";
-
 import toast from "react-hot-toast";
+import ContactFormModal from "./ContactFormModal";
+
+
 
 type ModalType = "create" | "edit" | "view" | "delete" | null;
 
 export function ContactManager() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-  //   const { toast } = useToast();
 
-  // RTK Query hooks
-  const {
-    data: contactsResponse,
-    isLoading: isLoadingContacts,
-    isError, error
-  } = useGetContactsQuery();
   const [createContact, { isLoading: isCreating }] = useCreateContactMutation();
   const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
   const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
 
+  const {
+    data: contactsResponse,
+    isLoading: isLoadingContacts,
+    isError,
+    error,
+  } = useGetContactsQuery();
   const contacts = contactsResponse?.contacts || [];
 
-  // Modal handlers
-  const openModal = (type: ModalType, contact?: Contact) => {
+  const openModal = useCallback((type: ModalType, contact?: Contact) => {
     setActiveModal(type);
     setSelectedContact(contact || null);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setActiveModal(null);
     setSelectedContact(null);
-  };
+  }, []);
 
-  // CRUD operations
-  const handleCreateContact = async (data: ContactFormData) => {
-    try {
-      const resData = await createContact(data).unwrap();
-      console.log(resData, "response creatte contact");
-      toast.success("Contact created successfully!");
-      closeModal();
-    } catch (error) {
-      console.error("Create contact error:", error);
-      toast.error("Failed to create contact. Please try again.");
-    }
-  };
 
-  const handleUpdateContact = async (data: ContactFormData) => {
-    if (!selectedContact) return;
-    const updatedContact: ContactFormDataWithId = {
-      id: selectedContact.id,
-      ...data,
-    };
+  const handleCreateContact = useCallback(
+    async (data: ContactFormData) => {
+      try {
+        const resData = await createContact(data).unwrap();
+     
+        toast.success("Contact created successfully!");
+        closeModal();
+      } catch (error) {
+        console.error("Create contact error:", error);
+        toast.error("Failed to create contact. Please try again.");
+      }
+    },
+    [createContact, closeModal]
+  );
 
-    try {
-      await updateContact(updatedContact).unwrap();
-      toast.success("Contact updated successfully!");
-      closeModal();
-    } catch (error) {
-      console.error("Update contact error:", error);
-      toast.error("Failed to update contact. Please try again.");
-    }
-  };
+  const handleUpdateContact = useCallback(
+    async (data: ContactFormData) => {
+      if (!selectedContact) return;
+      const updatedContact: ContactFormDataWithId = {
+        id: selectedContact.id,
+        ...data,
+      };
+      try {
+        await updateContact(updatedContact).unwrap();
+        toast.success("Contact updated successfully!");
+        closeModal();
+      } catch (error) {
+        console.error("Update contact error:", error);
+        toast.error("Failed to update contact. Please try again.");
+      }
+    },
+    [updateContact, closeModal, selectedContact]
+  );
 
-  const handleDeleteContact = async () => {
+  const handleDeleteContact = useCallback(async () => {
     if (!selectedContact) return;
 
     try {
@@ -92,9 +94,9 @@ export function ContactManager() {
       console.error("Delete contact error:", error);
       toast.error("Failed to delete contact. Please try again.");
     }
-  };
+  }, [deleteContact, selectedContact, closeModal]);
 
-  // Table event handlers
+
   const handleViewContact = (contact: Contact) => {
     openModal("view", contact);
   };
@@ -109,9 +111,7 @@ export function ContactManager() {
 
   return (
     <div className="space-y-6">
-    
-
-      {/* Header with Add Button */}
+      {/* Header*/}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">
@@ -131,8 +131,7 @@ export function ContactManager() {
           </button>
         </div>
       </div>
-
-      {/* Contact Table */}
+      {/* Contacts list */}
       <ContactTable
         contacts={contacts}
         isLoading={isLoadingContacts}
@@ -142,33 +141,30 @@ export function ContactManager() {
         onEdit={handleEditContact}
         onDelete={handleDeleteContactClick}
       />
-
       {/* Create/Edit Modal */}
-      <ContactFormModal
-        isOpen={activeModal === "create" || activeModal === "edit"}
-        onClose={closeModal}
-        onSubmit={
-          activeModal === "create" ? handleCreateContact : handleUpdateContact
-        }
-        contact={activeModal === "edit" ? selectedContact! : undefined}
-        isLoading={isCreating || isUpdating}
-      />
-
-      {/* View Details Modal */}
-      <ContactDetailsModal
-        contact={selectedContact}
-        isOpen={activeModal === "view"}
-        onClose={closeModal}
-      />
-
-      {/* Delete Confirmation Modal */}
-      <DeleteConfirmationModal
-        isOpen={activeModal === "delete"}
-        onClose={closeModal}
-        onConfirm={handleDeleteContact}
-        contact={selectedContact}
-        isLoading={isDeleting}
-      />
+      {(activeModal === "create" || activeModal === "edit") && (
+        <ContactFormModal
+          onClose={closeModal}
+          onSubmit={
+            activeModal === "create" ? handleCreateContact : handleUpdateContact
+          }
+          contact={activeModal === "edit" ? selectedContact! : undefined}
+          isLoading={isCreating || isUpdating}
+        />
+      )}
+      {/*  Details */}
+      {activeModal === "view" && (
+        <ContactDetailsModal contact={selectedContact} onClose={closeModal} />
+      )}
+      {/* Delete Confirmation */}
+      {activeModal === "delete" && (
+        <DeleteConfirmationModal
+          onClose={closeModal}
+          onConfirm={handleDeleteContact}
+          contact={selectedContact}
+          isLoading={isDeleting}
+        />
+      )}
     </div>
   );
 }

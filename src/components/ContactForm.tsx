@@ -2,9 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
-
 import type { Contact, ContactFormData } from "../types/contacts";
-
 import "react-datepicker/dist/react-datepicker.css";
 import z from "zod";
 import { useEffect } from "react";
@@ -29,7 +27,6 @@ export function ContactForm({
   onCancel,
   isLoading = false,
 }: ContactFormProps) {
-  console.log(contact, "contact at fo0rm");
   const contactSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
@@ -48,7 +45,17 @@ export function ContactForm({
   });
 
   type ContactFormData = z.infer<typeof contactSchema>;
-  console.log(contact);
+
+  const SampleContact: ContactFormData = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "User",
+    gender: "Male",
+    isActive: true,
+    newsletter: true,
+    birthDate: new Date(),
+  };
 
   const {
     handleSubmit,
@@ -57,20 +64,10 @@ export function ContactForm({
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      role: "User",
-      gender: "Male",
-      isActive: true,
-      newsletter: true,
-      birthDate: new Date(),
-    },
+    defaultValues: SampleContact,
   });
   useEffect(() => {
     if (contact) {
-      console.log("working add contact default");
       reset({
         firstName: contact.firstName,
         lastName: contact.lastName,
@@ -85,18 +82,9 @@ export function ContactForm({
   }, [reset, contact]);
 
   const handleFormSubmit = (data: ContactFormData) => {
-    console.log(data, "submit data");
+   
     onSubmit(data);
-    reset({
-      firstName: "",
-      lastName: "",
-      email: "",
-      role: "User",
-      gender: "Male",
-      isActive: true,
-      newsletter: true,
-      birthDate: new Date(),
-    });
+    reset(SampleContact);
   };
 
   return (
@@ -244,7 +232,7 @@ export function ContactForm({
           )}
         </div>
 
-        {/* Gender Radio Buttons */}
+        {/* Gender */}
         <div className="space-y-3">
           <label
             htmlFor=""
@@ -334,7 +322,7 @@ export function ContactForm({
           )}
         </div>
 
-        {/* Birth Date */}
+        {/* Birthday */}
         <div className="space-y-2">
           <label
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -375,7 +363,6 @@ export function ContactForm({
           )}
         </div>
 
-        {/* Checkboxes */}
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <Controller

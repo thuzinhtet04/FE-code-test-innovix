@@ -1,33 +1,24 @@
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-// } from "@/components/ui/dialog";
 import { ContactForm } from "./ContactForm";
 import type { Contact, ContactFormData } from "../types/contacts";
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 
 interface ContactFormModalProps {
-  isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: ContactFormData) => void;
   contact?: Contact;
   isLoading?: boolean;
 }
 
-export function ContactFormModal({
-  isOpen,
+const ContactFormModal = ({
   onClose,
   onSubmit,
   contact,
   isLoading,
-}: ContactFormModalProps) {
+}: ContactFormModalProps) => {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     closeBtnRef.current?.focus();
-    console.log(contact, "contact at modal");
-  }, [isOpen, contact]);
+  }, []);
   const handleSubmit = (data: ContactFormData) => {
     onSubmit(data);
   };
@@ -36,10 +27,7 @@ export function ContactFormModal({
     <div
       onClick={onClose}
       role="dialog"
-      aria-hidden={isOpen ? "false" : "true"}
-      className={`${
-        isOpen ? "flex" : "hidden"
-      } overflow-y-auto overflow-x-hidden bg-black/50 fixed top-0 right-0 left-0 bottom-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      className={`flex overflow-y-auto overflow-x-hidden bg-black/50 fixed top-0 right-0 left-0 bottom-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
     >
       <div
         onClick={(e) => {
@@ -48,15 +36,15 @@ export function ContactFormModal({
         className="w-full max-w-2xl max-h-full m-auto rounded-lg"
         aria-labelledby="CreateNewContactTitle"
       >
-        {/* Modal content */}
+   
         <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700 p-5">
-          {/* Modal header */}
+         
           <div className="flex items-center justify-between p-4 md:p-5 border-b mb-2 rounded-t dark:border-gray-600 border-gray-200">
             <h3
               id="CreateNewContactTitle"
               className="text-xl font-semibold text-gray-900 dark:text-white"
             >
-              {" "}
+           
               {contact ? "Update the contact" : "Create New Contact"}
             </h3>
             <button
@@ -84,7 +72,7 @@ export function ContactFormModal({
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          {/* Modal body */}
+        
           <ContactForm
             contact={contact ?? undefined}
             onSubmit={handleSubmit}
@@ -95,4 +83,6 @@ export function ContactFormModal({
       </div>
     </div>
   );
-}
+};
+
+export default memo(ContactFormModal);
