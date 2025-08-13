@@ -45,9 +45,7 @@ export function ContactFormModal({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="w-full max-w-2xl max-h-full m-auto focus-visible:border-2 rounded-lg focus-visible:border-blue-600 "
-        tabIndex={-1}
-        ref={closeBtnRef}
+        className="w-full max-w-2xl max-h-full m-auto rounded-lg"
         aria-labelledby="CreateNewContactTitle"
       >
         {/* Modal content */}
@@ -57,16 +55,14 @@ export function ContactFormModal({
             <h3
               id="CreateNewContactTitle"
               className="text-xl font-semibold text-gray-900 dark:text-white"
-            >
-              Create New Contact
+            > {contact ? "Update the contact" : "Create New Contact"}
             </h3>
             <button
               onClick={onClose}
               type="button"
               ref={closeBtnRef}
-
               aria-label="Close modal"
-              className="text-red-500  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="text-red-300  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             >
               <svg
                 className="w-3 h-3"

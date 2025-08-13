@@ -18,9 +18,6 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Badge } from "@/components/ui/badge";
 
 import type { Contact } from "../types/contacts";
 import Loading from "./Loading";
@@ -29,7 +26,7 @@ interface ContactTableProps {
   contacts: Contact[];
   isLoading?: boolean;
   isError?: boolean;
-  error?: any;
+  error?: unknown;
   onView: (contact: Contact) => void;
   onEdit: (contact: Contact) => void;
   onDelete: (contact: Contact) => void;
@@ -46,6 +43,8 @@ export function ContactTable({
   onEdit,
   onDelete,
 }: ContactTableProps) {
+
+  
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -134,8 +133,19 @@ export function ContactTable({
         cell: ({ row }) => (
           <div className="text-blue-600 hover:text-blue-800">
             <a
+              aria-label={`Send Eamail to ${row.getValue("email")}`}
               href={`mailto:${row.getValue("email")}`}
               className="hover:underline"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.currentTarget.click();
+                }
+              }}
             >
               {row.getValue("email")}
             </a>
@@ -238,11 +248,16 @@ export function ContactTable({
               aria-label="Contact actions"
             >
               <button
-                data-tooltip-id="my-tooltip"
-                data-tooltip-content="Details"
                 onClick={(e) => {
                   e.stopPropagation();
                   onView(contact);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onView(contact);
+                  }
                 }}
                 aria-label={`View details for ${contact.firstName} ${contact.lastName}`}
                 title={`View ${contact.firstName} ${contact.lastName}`}
@@ -252,11 +267,16 @@ export function ContactTable({
               </button>
 
               <button
-                data-tooltip-id="my-tooltip"
-                data-tooltip-content="Edit"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit(contact);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onEdit(contact);
+                  }
                 }}
                 aria-label={`Edit ${contact.firstName} ${contact.lastName}`}
                 title={`Edit ${contact.firstName} ${contact.lastName}`}
@@ -266,11 +286,16 @@ export function ContactTable({
               </button>
 
               <button
-                data-tooltip-id="my-tooltip"
-                data-tooltip-content="Delete"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete(contact);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onDelete(contact);
+                  }
                 }}
                 aria-label={`Delete ${contact.firstName} ${contact.lastName}`}
                 title={`Delete ${contact.firstName} ${contact.lastName}`}
@@ -325,9 +350,9 @@ export function ContactTable({
            items-center justify-center h-32"
           >
             <p>
-              There is Error when loading the contacts, Please try againg later!{" "}
+              There is Error when loading the contacts, Please try againg later!
             </p>
-            <p>{error.error}</p>
+           
           </div>
         </div>
       </div>
@@ -338,7 +363,7 @@ export function ContactTable({
     <div>
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-          <h3>Contacts ({contacts.length})</h3>
+          <h3 aria-label="Contacts Count">Contacts ({contacts.length})</h3>
           <div className="flex items-center space-x-2">
             <div className="relative">
               <div className="absolute inset-y-0 start-0 flex items-center  justify-center ps-3 pointer-events-none">
@@ -376,7 +401,7 @@ export function ContactTable({
       </div>
       <div>
         <div className="rounded-md border overflow-x-auto">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <table  aria-label="Contact lists " className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>

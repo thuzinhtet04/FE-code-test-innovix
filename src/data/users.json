@@ -1,17 +1,15 @@
 {
   "users": [
     {
-      "id": "1",
       "firstName": "Leanne",
       "lastName": "Graham",
       "email": "Sincere@april.biz",
-      "role": "User",
-      "isActive": true,
-      "newsletter": true,
+      "role": "Viewer",
       "gender": "Other",
-      "birthDate": "2004-08-12T11:42:00.000Z",
-      "createdAt": "2025-08-12T11:42:00.000Z",
-      "updatedAt": "2025-08-12T11:42:00.000Z"
+      "isActive": true,
+      "newsletter": false,
+      "birthDate": "2011-03-03T11:42:00.000Z",
+      "id": "1"
     },
     {
       "id": "2",
