@@ -19,17 +19,14 @@ export function ContactDetailsModal({
     if (isOpen && closeBtnRef.current) {
       closeBtnRef.current.focus();
     }
-  });
+  }, [isOpen]);
   if (!contact) return null;
 
   return (
     <div
-      role="dialog"
-      aria-modal={true}
       onClick={onClose}
       id="default-modal"
       aria-hidden={isOpen ? "false" : "true"}
-      aria-labelledby="ModalTitle"
       className={`${
         isOpen ? "flex" : "hidden"
       } overflow-y-auto overflow-x-hidden bg-black/50  fixed top-0 right-0 left-0 bottom-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
@@ -39,6 +36,9 @@ export function ContactDetailsModal({
           e.stopPropagation();
         }}
         className=" p-4 w-full max-w-2xl max-h-full rounded-lg dark:bg-gray-500 m-auto "
+        role="dialog"
+        aria-modal={true}
+        aria-labelledby="ModalTitle"
       >
         <div className="space-y-6">
           <div className="flex items-center justify-between    rounded-t dark:border-gray-600 border-gray-200">
@@ -156,7 +156,6 @@ export function ContactDetailsModal({
                   {contact.updatedAt && (
                     <div>
                       <span className="font-medium">Updated:</span>
-
                       {new Date(contact.updatedAt).toLocaleString()}
                     </div>
                   )}

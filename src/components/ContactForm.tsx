@@ -6,7 +6,7 @@ import Select from "react-select";
 import type { Contact, ContactFormData } from "../types/contacts";
 
 import "react-datepicker/dist/react-datepicker.css";
-import z, { file } from "zod";
+import z from "zod";
 import { useEffect } from "react";
 import Loading from "./Loading";
 
@@ -29,6 +29,7 @@ export function ContactForm({
   onCancel,
   isLoading = false,
 }: ContactFormProps) {
+  console.log(contact, "contact at fo0rm");
   const contactSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
@@ -69,6 +70,7 @@ export function ContactForm({
   });
   useEffect(() => {
     if (contact) {
+      console.log("working add contact default");
       reset({
         firstName: contact.firstName,
         lastName: contact.lastName,
@@ -80,14 +82,21 @@ export function ContactForm({
         birthDate: new Date(contact.birthDate),
       });
     }
-  }, [contact, reset]);
+  }, [reset, contact]);
 
   const handleFormSubmit = (data: ContactFormData) => {
     console.log(data, "submit data");
     onSubmit(data);
-    if (!contact) {
-      reset();
-    }
+    reset({
+      firstName: "",
+      lastName: "",
+      email: "",
+      role: "User",
+      gender: "Male",
+      isActive: true,
+      newsletter: true,
+      birthDate: new Date(),
+    });
   };
 
   return (
@@ -237,7 +246,10 @@ export function ContactForm({
 
         {/* Gender Radio Buttons */}
         <div className="space-y-3">
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <label
+            htmlFor=""
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
             Gender <span className="text-red-500">*</span>
           </label>
 
@@ -249,7 +261,7 @@ export function ContactForm({
                 render={({ field }) => (
                   <input
                     {...field}
-                    id="gender-1"
+                    id="male"
                     type="radio"
                     value="Male"
                     checked={field.value == "Male"}
@@ -260,7 +272,7 @@ export function ContactForm({
               />
 
               <label
-                htmlFor="gender-1"
+                htmlFor="male"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Male
@@ -273,7 +285,7 @@ export function ContactForm({
                 render={({ field }) => (
                   <input
                     {...field}
-                    id="gender-1"
+                    id="female"
                     type="radio"
                     value="Female"
                     name="gender"
@@ -283,7 +295,7 @@ export function ContactForm({
                 )}
               />
               <label
-                htmlFor="gender-2"
+                htmlFor="female"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Female
@@ -297,7 +309,7 @@ export function ContactForm({
                 render={({ field }) => (
                   <input
                     {...field}
-                    id="gender-1"
+                    id="other"
                     type="radio"
                     value="Other"
                     name="gender"
@@ -307,7 +319,7 @@ export function ContactForm({
                 )}
               />
               <label
-                htmlFor="gender-2"
+                htmlFor="other"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Other
@@ -375,6 +387,8 @@ export function ContactForm({
                     id="isActive"
                     type="checkbox"
                     onChange={field.onChange}
+                    checked={field.value}
+                    aria-checked={field.value === true ? true : false}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm     dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
@@ -396,6 +410,8 @@ export function ContactForm({
                   id="newsletter"
                   type="checkbox"
                   onChange={field.onChange}
+                  checked={field.value}
+                  aria-checked={field.value === true ? true : false}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm     dark:bg-gray-700 dark:border-gray-600"
                 />
               )}
@@ -413,19 +429,19 @@ export function ContactForm({
         <div className="flex justify-end space-x-4 pt-6">
           <button
             type="button"
-            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10   dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            onClick={onCancel}
+            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none focus-visible:border-2 focus-visible:border-black  bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10   dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            onClick={() => {
+              onCancel();
+              reset();
+            }}
             disabled={isLoading}
           >
             Cancel
           </button>
           <button
             type="submit"
-            onClick={() => {
-              console.log("click");
-            }}
             disabled={isLoading}
-            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10   dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none focus-visible:border-2 focus-visible:border-black bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10   dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
             {isLoading ? (
               <div>

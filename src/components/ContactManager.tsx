@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, RefreshCw } from "lucide-react";
+import { Plus } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 // import { useToast } from "@/hooks/use-toast";
 import { ContactTable } from "./ContactTable";
@@ -124,7 +124,7 @@ export function ContactManager() {
         <div className="flex items-center">
           <button
             onClick={() => openModal("create")}
-            className="py-2.5 px-5 me-2 flex items-center  mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-blue-600 dark:text-gray-200 dark:border-gray-600 "
+            className="py-2.5 px-5 me-2 flex items-center  mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus-visible:ring-2 focus-visible:ring-gray-100 dark:focus-visible:ring-gray-700 dark:bg-blue-600 dark:text-gray-200 dark:border-gray-600 "
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             <span>Add Contact</span>

@@ -66,17 +66,15 @@
       "updatedAt": "2025-08-12T11:42:00.000Z"
     },
     {
-      "id": "6",
       "firstName": "Mrs.",
       "lastName": "Dennis Schulist",
       "email": "Karley_Dach@jasper.info",
       "role": "User",
-      "isActive": true,
+      "gender": "Female",
+      "isActive": false,
       "newsletter": true,
-      "gender": "Other",
       "birthDate": "2004-08-12T11:42:00.000Z",
-      "createdAt": "2025-08-12T11:42:00.000Z",
-      "updatedAt": "2025-08-12T11:42:00.000Z"
+      "id": "6"
     },
     {
       "id": "7",
@@ -131,7 +129,6 @@
       "updatedAt": "2025-08-12T11:42:00.000Z"
     },
     {
-      "id": "8092",
       "firstName": "Thu Zin ",
       "lastName": "Htet",
       "email": "student0@gmail.com",
@@ -139,7 +136,8 @@
       "gender": "Other",
       "isActive": true,
       "newsletter": true,
-      "birthDate": "2025-08-12T15:00:52.219Z"
+      "birthDate": "2025-08-12T15:00:52.219Z",
+      "id": "8092"
     },
     {
       "firstName": "gjgjgh",
@@ -148,9 +146,31 @@
       "role": "Admin",
       "gender": "Female",
       "isActive": false,
-      "newsletter": false,
+      "newsletter": true,
       "birthDate": "2025-07-27T15:02:31.000Z",
       "id": "888d"
+    },
+    {
+      "firstName": "dfasfsdfsadf",
+      "lastName": "last 1",
+      "email": "superadmin@gmail.com",
+      "role": "Admin",
+      "gender": "Male",
+      "isActive": false,
+      "newsletter": true,
+      "birthDate": "2025-08-13T08:03:01.705Z",
+      "id": "f86e"
+    },
+    {
+      "id": "4b54",
+      "firstName": "hello",
+      "lastName": "last",
+      "email": "kokohtet142004@gmail.com",
+      "role": "Admin",
+      "gender": "Other",
+      "isActive": true,
+      "newsletter": false,
+      "birthDate": "2025-08-10T11:19:27.825Z"
     }
   ]
 }
